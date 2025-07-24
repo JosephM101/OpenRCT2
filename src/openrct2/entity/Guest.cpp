@@ -7154,6 +7154,94 @@ void Guest::InsertNewThought(PeepThoughtType thoughtType, uint16_t thoughtArgume
     thought.fresh_timeout = 0;
 
     WindowInvalidateFlags |= PEEP_INVALIDATE_PEEP_THOUGHTS;
+
+    // 'splode any guests with negative thoughts!
+    PeepThoughtType badThoughts[] = { PeepThoughtType::BadLitter,
+                                      PeepThoughtType::BadValue,
+                                      PeepThoughtType::BalloonMuch,
+                                      PeepThoughtType::BeefNoodlesMuch,
+                                      PeepThoughtType::BurgerMuch,
+                                      PeepThoughtType::CandyflossMuch,
+                                      PeepThoughtType::CantAffordItem,
+                                      PeepThoughtType::CantAffordRide,
+                                      PeepThoughtType::CantFind,
+                                      PeepThoughtType::CantFindExit,
+                                      PeepThoughtType::ChickenMuch,
+                                      PeepThoughtType::ChipsMuch,
+                                      PeepThoughtType::CoffeeMuch,
+                                      PeepThoughtType::CookieMuch,
+                                      PeepThoughtType::Crowded,
+                                      PeepThoughtType::DoughnutMuch,
+                                      PeepThoughtType::DrinkMuch,
+                                      PeepThoughtType::FriedRiceNoodlesMuch,
+                                      PeepThoughtType::FruitJuiceMuch,
+                                      PeepThoughtType::FunnelCakeMuch,
+                                      PeepThoughtType::GetOff,
+                                      PeepThoughtType::GetOut,
+                                      PeepThoughtType::GoHome,
+                                      PeepThoughtType::HatMuch,
+                                      PeepThoughtType::HaventFinished,
+                                      PeepThoughtType::Help,
+                                      PeepThoughtType::HotChocolateMuch,
+                                      PeepThoughtType::HotDogMuch,
+                                      PeepThoughtType::Hungry,
+                                      PeepThoughtType::IceCreamMuch,
+                                      PeepThoughtType::IcedTeaMuch,
+                                      PeepThoughtType::Intense,
+                                      PeepThoughtType::LemonadeMuch,
+                                      PeepThoughtType::MapMuch,
+                                      PeepThoughtType::MeatballSoupMuch,
+                                      PeepThoughtType::MoreThrilling,
+                                      PeepThoughtType::NotHungry,
+                                      PeepThoughtType::NotPaying,
+                                      PeepThoughtType::NotSafe,
+                                      PeepThoughtType::NotThirsty,
+                                      PeepThoughtType::NotWhileRaining,
+                                      PeepThoughtType::PathDisgusting,
+                                      PeepThoughtType::Photo2Much,
+                                      PeepThoughtType::Photo3Much,
+                                      PeepThoughtType::Photo4Much,
+                                      PeepThoughtType::PhotoMuch,
+                                      PeepThoughtType::PizzaMuch,
+                                      PeepThoughtType::PopcornMuch,
+                                      PeepThoughtType::PretzelMuch,
+                                      PeepThoughtType::QueuingAges,
+                                      PeepThoughtType::RoastSausageMuch,
+                                      PeepThoughtType::RunningOut,
+                                      PeepThoughtType::Sick,
+                                      PeepThoughtType::Sickening,
+                                      PeepThoughtType::SoybeanMilkMuch,
+                                      PeepThoughtType::SpentMoney,
+                                      PeepThoughtType::SubSandwichMuch,
+                                      PeepThoughtType::SujongkwaMuch,
+                                      PeepThoughtType::SunglassesMuch,
+                                      PeepThoughtType::TentacleMuch,
+                                      PeepThoughtType::Thirsty,
+                                      PeepThoughtType::Tired,
+                                      PeepThoughtType::ToffeeAppleMuch,
+                                      PeepThoughtType::ToyMuch,
+                                      PeepThoughtType::TshirtMuch,
+                                      PeepThoughtType::UmbrellaMuch,
+                                      PeepThoughtType::Vandalism,
+                                      PeepThoughtType::VerySick,
+                                      PeepThoughtType::WontonSoupMuch };
+
+    //if (thoughtType == PeepThoughtType::BadLitter || thoughtType == PeepThoughtType::BadValue
+    //    || thoughtType == PeepThoughtType::BalloonMuch || thoughtType == PeepThoughtType::CantAffordRide
+    //    || thoughtType == PeepThoughtType::Crowded)
+    for (int i = 0; i < sizeof(badThoughts); i++)
+    {
+        if (badThoughts[i] == thoughtType)
+        {
+            // Not sure which to use
+            this->SetItemFlags(PeepFlags::PEEP_FLAGS_EXPLODE);
+            this->PeepFlags = this->PeepFlags | PeepFlags::PEEP_FLAGS_EXPLODE;
+
+            // Log
+            std::cout << "EXPLODE!!!" << std::endl;
+            break;
+        }
+    }
 }
 
 // clang-format off
